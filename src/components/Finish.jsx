@@ -1,4 +1,17 @@
-export default function Finish({ handleBack }) {
+export default function Finish({ handleBack, backText }) {
+  const randomCode = () => {
+    const characters = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+    let result = "";
+
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters[randomIndex];
+    }
+
+    return result;
+  };
+
   return (
     <>
       <div className="finish">
@@ -6,7 +19,7 @@ export default function Finish({ handleBack }) {
           <h1>Thank you</h1>
           <p className="order-id">
             Order ID<span>:</span>
-            <span>XXKYB</span>
+            <span>{randomCode()}</span>
           </p>
           <p className="order-message">
             Your order will be delivered today with GO-SEND
@@ -23,7 +36,7 @@ export default function Finish({ handleBack }) {
             >
               <path d="M480-160 160-480l320-320 42 42-248 248h526v60H274l248 248-42 42Z" />
             </svg>
-            <p className="">Back to cart</p>
+            <p className="">Go to homepage</p>
           </div>
         </div>
       </div>

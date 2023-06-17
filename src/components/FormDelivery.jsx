@@ -1,3 +1,7 @@
+import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function FormDelivery({ handleChange, input, validation }) {
   const handleValidation = (value) => {
     if (value === "good") return "success";
@@ -9,9 +13,21 @@ export default function FormDelivery({ handleChange, input, validation }) {
       <section className="form-container-delivery">
         <div className="form-name">
           <h1>Delivery details</h1>
-          <div className="checkbox">
-            <input type="checkbox" />
-            <label htmlFor="dropshipper">Send as a dropshipper</label>
+          <div>
+            <div className="checkbox">
+              <input
+                name="checkbox"
+                type="checkbox"
+                id="dropshipper"
+                value="dropshipper"
+                checked={input.checkbox}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+              <label htmlFor="dropshipper">Send as a dropshipper</label>
+              <span className="checkmark"></span>
+            </div>
           </div>
         </div>
         <div className="form-delivery">
@@ -43,9 +59,13 @@ export default function FormDelivery({ handleChange, input, validation }) {
               name="deliveryAddress"
               value={input.deliveryAddress}
               onChange={handleChange}
+              maxLength={120}
               className={handleValidation(validation.deliveryAddress)}
               required
             />
+            <span className="characters-limited">
+              {120 - input.deliveryAddress.length} characters remaining
+            </span>
           </div>
           <div className="form-two">
             <input
@@ -55,6 +75,7 @@ export default function FormDelivery({ handleChange, input, validation }) {
               name="dropshipper"
               value={input.dropshipper}
               onChange={handleChange}
+              className={handleValidation(validation.dropshipper)}
               required
             />
             <input

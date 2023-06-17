@@ -1,7 +1,21 @@
-export default function Button({handleSubmit}) {
+export default function Button({ handleSubmit, step, input }) {
+  let buttonText = "";
+
+  if (step === 1) {
+    buttonText = "Continue to Payment";
+  } else if (step === 2) {
+    buttonText = `Pay with ${input}`;
+  } else {
+    return null;
+  }
+
   return (
-    <button type="submit" onClick={handleSubmit} className="button-submit">
-      Continue to Payment
-    </button>
+    <div>
+      {step !== 3 && (
+        <button type="submit" onClick={handleSubmit} className="button-submit">
+          {buttonText}
+        </button>
+      )}
+    </div>
   );
 }

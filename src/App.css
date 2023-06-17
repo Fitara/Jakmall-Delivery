@@ -60,6 +60,12 @@ body {
   width: 100%;
 }
 
+.stepper-3 {
+  top: -50px;
+    height: 20px;
+    width: 100%;
+}
+
 .stepper-child {
   display: flex;
   align-items: center;
@@ -70,24 +76,21 @@ body {
   height: 50px;
 }
 
-.stepper-child>div {
+.stepper-child > div {
   margin-right: 10px;
 }
 
-.stepper-child>div>span:first-child {
-  background-color: orangered;
+.stepper-child> div > span:first-child {
+  background-color: rgb(255, 125, 0);
   color: white;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   margin-right: 8px;
+  font-size: 12px;
   width: 26px;
   height: 26px;
-}
-
-.stepper-child>div>span::after {
-  background-color: orange;
 }
 
 section.form-container-delivery {
@@ -96,6 +99,7 @@ section.form-container-delivery {
 
 section.container-delivery {
   margin: 0 auto;
+  height: 490px;
   padding: 30px;
   padding-top: 10px;
   padding-bottom: 30px;
@@ -107,6 +111,7 @@ section.container-delivery {
 .delivery {
   display: flex;
   flex-wrap: wrap;
+  /* margin-top: 50px; */ 
   width: 900px;
 }
 
@@ -122,6 +127,14 @@ section.container-delivery {
   width: 50%
 }
 
+.characters-limited {
+  position: absolute;
+  margin-top: 200px;
+  margin-left: 170px;
+  font-size: 12px;
+  color: gray;
+}
+
 .form-two {
   display: flex;
   flex-direction: column;
@@ -134,27 +147,30 @@ section.container-delivery {
   justify-content: space-between;
   border-left: 1.5px solid orange;
   padding-left: 20px;
+  margin-top: -50px;
+  font-size: 14px;
   width: 255px;
   height: 400px;
 }
 
 .summary-name {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgb(199, 199, 199);
 }
 
 .summary-name>p {
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.good-cost, .dropshipping-fee, .total {
+.good-cost, .dropshipping-fee, .shipment-method, .total {
   display: flex;
   justify-content: space-between;
 }
 
-.good-cost>*, .dropshipping-fee>* {
+.good-cost > *, .dropshipping-fee > *, .shipment-method > * {
   margin-top: 0px;
   margin-bottom: 10px;
+  font-size: 12px
 }
 
 .total {
@@ -175,33 +191,62 @@ input:focus, input:active {
 }
 
 textarea {
-  height: 80px;
+  height: 120px;
 }
 
-.checkbox {
-  margin-right: 10px;
-  border-radius: 0;
+textarea:focus,
+textarea:active {
+  outline: none;
 }
 
 div.checkbox {
   display: flex;
   align-items: center;
-  margin-right: 100px;
-  border-radius: 0;
+  position: relative;
+  margin-top: 15px;
+  margin-right: 50px;
+  font-size: 14px;
 }
 
 input[type=checkbox] {
   margin: 0;
   margin-right: 8px;
-  outline: #11a100;
+  appearance: none;
   border-radius: 0;
   width: 20px;
+  height: 20px;
+}
+
+input[type="checkbox"]:checked {
+  outline: #c8ccd4;
+  box-shadow: 0 0 4px 0.5px #19f001;
+}
+
+.checkmark {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  font-size: 14px;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "\2714";
+  /* Checkmark symbol */
+  position: absolute;
+  top: 1px;
+  left: 6px;
+  font-size: 12px;
+  color: #11a100;
 }
 
 .form-name {
   display: flex;
   align-items: flex-start;
-  margin-top: 0;;
+  margin-top: -50px;
   color: rgb(100, 100, 100);
   justify-content: space-between;
 }
@@ -226,6 +271,7 @@ p {
 
 .payment {
   flex-grow: 1;
+  margin-top: -50px;
 }
 
 .payment-child {
@@ -260,7 +306,37 @@ p {
   border-color: #11a100;
   border-width: 1.5px;
   background-color: #7fffd440;
-} 
+}
+
+.payment-child label>input {
+  display: none;
+  height: 40px;
+}
+
+.payment-child label.active {
+  border-color: #11a100;
+  border-width: 1.5px;
+  background-color: #7fffd440;
+}
+
+.estimation > * {
+  margin-top: -20;
+  margin-bottom: 0;
+  border-bottom: 1px solid rgb(199,199,199);
+}
+
+.estimation-color {
+  color: #11a100;
+}
+
+.payment-method > * {
+  margin-top: -20;
+  margin-bottom: 0;
+}
+
+.payment-color {
+  color: #11a100;
+}
 
 .finish {
   flex-grow: 1;
