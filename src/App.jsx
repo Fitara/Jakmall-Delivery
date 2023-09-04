@@ -1,5 +1,6 @@
 import { RouterProvider } from "react-router-dom"
 import { ToastContainer } from 'react-toastify';
+import { FormProvider } from "react-hook-form";
 import 'react-toastify/dist/ReactToastify.css';
 import router from "./router"
 import "./App.css"
@@ -7,8 +8,10 @@ import "./App.css"
 export default function App() {
   return (
     <>
-      <RouterProvider router={router} />
-      <ToastContainer />
+      <FormProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </FormProvider>
     </>
   )
 }

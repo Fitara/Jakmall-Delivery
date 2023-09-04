@@ -1,12 +1,35 @@
 import "../App.css";
 import { useState } from "react";
 import FormDelivery from "./FormDelivery";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Summary from "./Summary";
 import Payment from "./Payment";
 import Finish from "./Finish";
 
 export default function Delivery() {
+
+  const {
+    register,
+    handleSubmit
+  } = useForm();
+
+  const [validation] = useState({
+    email: "",
+    phoneNumber: "",
+    dropshipper: "",
+    dropshipperNumb: "",
+    deliveryAddress: "",
+  });
+
+  const [formData, setFormData] = useState({
+    email: "",
+    phoneNumber: "",
+    dropshipper: "",
+    dropshipperNumb: "",
+    deliveryAddress: "",
+  });
+
   const [input, setInput] = useState({
     email: "",
     phoneNumber: "",
@@ -18,8 +41,6 @@ export default function Delivery() {
     shipmentFee: "",
     checkbox: false,
   });
-
-  const [errorToastCount, setErrorToastCount] = useState({});
 
   const [step, setStep] = useState(1);
 
@@ -34,77 +55,7 @@ export default function Delivery() {
   const handleChange = (e) => {
     let { name, value } = e.target;
 
-    if (name === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailRegex.test(value)) {
-        setValidation((prevData) => ({
-          ...prevData,
-          [name]: "good",
-        }));
-      } else if (!errorToastCount[name] || errorToastCount[name] < 3) {
-        toast.error("Invalid email !");
-        setErrorToastCount((prevCounts) => ({
-          ...prevCounts,
-          [name]: prevCounts[name] ? prevCounts[name] + 1 : 1,
-        }));
-        setValidation((prevData) => ({
-          ...prevData,
-          [name]: "error",
-        }));
-      }
-    } else if (name === "phoneNumber" || name === "dropshipperNumb") {
-      value = value.replace(/[^0-9+()\-\s]/gi, "").substr(0, 20);
-      if (
-        value.trim() === "" ||
-        value.length < 11 ||
-        value.length > 30 ||
-        isNaN(value)
-      ) {
-        if (!errorToastCount[name] || errorToastCount[name] < 3) {
-          toast.error("Please enter a valid number!");
-          setErrorToastCount((prevCounts) => ({
-            ...prevCounts,
-            [name]: prevCounts[name] ? prevCounts[name] + 1 : 1,
-          }));
-          setValidation((prevData) => ({
-            ...prevData,
-            [name]: "error",
-          }));
-        }
-      } else if (value.length <= 30) {
-        setValidation((prevData) => ({
-          ...prevData,
-          [name]: "good",
-        }));
-      }
-    } else if (name === "dropshipper" || name === "deliveryAddress") {
-      if (value.trim().length === 0) {
-        if (!errorToastCount[name] || errorToastCount[name] < 3) {
-          toast.error(`Can't be empty!`);
-          setErrorToastCount((prevCounts) => ({
-            ...prevCounts,
-            [name]: prevCounts[name] ? prevCounts[name] + 1 : 1,
-          }));
-          setValidation((prevData) => ({
-            ...prevData,
-            [name]: "error",
-          }));
-        }
-      } else if (name !== "deliveryAddress" && value.length > 30) {
-        if (!errorToastCount[name] || errorToastCount[name] < 3) {
-          toast.error("Maximum 40 characters allowed");
-          setErrorToastCount((prevCounts) => ({
-            ...prevCounts,
-            [name]: prevCounts[name] ? prevCounts[name] + 1 : 1,
-          }));
-        }
-      } else {
-        setValidation((prevData) => ({
-          ...prevData,
-          [name]: "good",
-        }));
-      }
-    } else if (name === "checkbox") {
+    if (name === "checkbox") {
       value = !input.checkbox;
     } else if (name === "shipmentType") {
       if (value === "GO-SEND") {
@@ -112,20 +63,23 @@ export default function Delivery() {
           ...prevData,
           shipmentFee: "15000",
         }));
-        console.log();
       } else if (value === "JNE") {
         setInput((prevData) => ({
           ...prevData,
           shipmentFee: "9000",
         }));
-        console.log("test2");
       } else if (value === "Personal Courier") {
         setInput((prevData) => ({
           ...prevData,
           shipmentFee: "29000",
         }));
-        console.log("test3");
       }
+      setFormData((prevData) => ({
+      ...prevData,
+      }));
+      
+
+      console.log("Updated FormData:", formData);
     }
 
     setInput((prevData) => ({
@@ -137,84 +91,64 @@ export default function Delivery() {
     }));
   };
 
-  const handleSubmit = () => {
+  const onSubmit = (data) => {
     let isValid = true;
     let toastMessage = "";
 
     if (step === 1) {
       if (
-        !input.email ||
-        !input.phoneNumber ||
-        !input.dropshipper ||
-        !input.dropshipperNumb ||
-        !input.deliveryAddress
+        !data.email ||
+        !data.phoneNumber ||
+        !data.dropshipper ||
+        !data.dropshipperNumb ||
+        !data.deliveryAddress
       ) {
         isValid = false;
-        toastMessage = "Please complete all the required fields !";
+        toastMessage = "Please complete all the required fields!";
       }
-    }
-
-    if (step === 2) {
+    } else if (step === 2) {
       if (!input.shipmentType) {
-        isValid = false;
-        toastMessage = "Please select a shipment option !";
+      isValid = false;
+      toastMessage = "Please select a shipment option!";
       }
     }
 
     if (isValid) {
-      const index = step + 1;
-      if (index <= 3) {
-        setStep(index);
+    const index = step + 1;
+    if (index <= 3) {
+      setStep(index);
 
-        switch (step) {
-          case 1:
-            toastMessage = "Form submitted successfully !";
-            break;
-          case 2:
-            toastMessage = "Payment choosed !";
-            break;
-        }
+      switch (step) {
+        case 1:
+          toastMessage = "Form submitted successfully!";
+          break;
+        case 2:
+          toastMessage = "Payment successfully!";
+          break;
+      }
 
-        toast.success(toastMessage);
-      } else {
-        toast.error("Please complete the form !");
+      toast.success(toastMessage);
       }
     } else {
       toast.error(toastMessage);
     }
-  };
+};
 
   const handleBack = () => {
-    let index = step - 1;
-    let home = step - 2;
+      let index = step - 1;
+      let home = step - 2;
 
     if (index >= 1 && step !== 3) {
       setStep(index);
+
+      if (step === 3) {
+        // console.log("Form Delivery Data:", validation); // Tambahkan ini
+      }
     } else if (step === 3) {
-      setInput({
-        email: "",
-        phoneNumber: "",
-        dropshipper: "",
-        dropshipperNumb: "",
-        deliveryAddress: "",
-      });
-      setValidation({
-        email: "",
-        phoneNumber: "",
-        dropshipperNumb: "",
-        deliveryAddress: "",
-      });
       setStep(home);
       toast.success("Successfully returned to the homepage!");
     }
   };
-
-  const [validation, setValidation] = useState({
-    email: "",
-    phoneNumber: "",
-    dropshipperNumb: "",
-    deliveryAddress: "",
-  });
 
   return (
     <section className="container-delivery">
@@ -337,12 +271,12 @@ export default function Delivery() {
         )}
       </div>
       <div className="estimation" style={{ marginTop: 48 }}></div>
-      <div className="delivery">
+      <form className="delivery" onSubmit={handleSubmit(onSubmit)}>
         {step === 1 && (
           <FormDelivery
             handleChange={handleChange}
+            register={register}
             validation={validation}
-            input={input}
           />
         )}
         {step === 2 && (
@@ -379,7 +313,7 @@ export default function Delivery() {
             />
           </div>
         )}
-      </div>
+      </form>
     </section>
   );
 }

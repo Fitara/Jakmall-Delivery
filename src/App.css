@@ -361,10 +361,10 @@ p {
   margin-right: 5px;
 }
 
-.error {
+.input-error {
   border-color: orangered !important;
 }
 
-.success {
+.input-success {
   border-color: green !important;
 }

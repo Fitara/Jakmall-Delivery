@@ -1,5 +1,5 @@
 import Button from "./Button";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 export default function Summary({ handleSubmit, handleBack, step, input }) {
   const getEstimation = () => {

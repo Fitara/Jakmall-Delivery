@@ -12,7 +12,7 @@ export default function Button({ handleSubmit, step, input }) {
   return (
     <div>
       {step !== 3 && (
-        <button type="submit" onClick={handleSubmit} className="button-submit">
+        <button type="submit" className="button-submit">
           {buttonText}
         </button>
       )}
